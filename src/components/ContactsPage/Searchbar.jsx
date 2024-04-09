@@ -1,17 +1,19 @@
 import { useState } from "react"
-import useContacts from "../../hooks/fetchData"
+import { useLocalContacts } from "../../context/ContactsContexts"
 import { usePage } from "../../context/PageContext"
+import useFetchData from "../../hooks/useFetchData"
 
 const Searchbar = () => {
     const [query, setQuery] = useState("")
     const { currentPage } = usePage()
+    const { localContacts, setLocalContacts } = useLocalContacts()
+    const { fetchContacts } = useFetchData()
 
-    const { setLocalContacts } = useContacts(currentPage)
     const handleSearch = async (e) => {
         e.preventDefault()
 
         const searchPayload = {
-            firstname: query,
+            lastname: query,
         }
 
         try {
@@ -36,6 +38,14 @@ const Searchbar = () => {
             console.error("Error fetching data:", error)
         }
     }
+    const handleOnchange = async (e) => {
+        if (e.target.value === "") {
+            fetchContacts()
+        } else {
+            setQuery(e.target.value)
+        }
+    }
+
     return (
         <div className="flex items-center">
             <label htmlFor="simple-search" className="sr-only">
@@ -65,7 +75,7 @@ const Searchbar = () => {
                         placeholder="Search"
                         required=""
                         value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        onChange={handleOnchange}
                     />
                 </div>
             </form>

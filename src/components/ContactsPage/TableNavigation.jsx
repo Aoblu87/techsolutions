@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { usePage } from "../../context/PageContext"
-import useContacts from "../../hooks/fetchData"
+import useContacts from "../../hooks/useFetchData"
 
 const TableNavigation = () => {
     const { currentPage, setCurrentPage, pageIndex, setIndex } = usePage()

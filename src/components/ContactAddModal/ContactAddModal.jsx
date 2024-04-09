@@ -1,6 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, useState } from "react"
 import { ToastContainer, toast } from "react-toastify"
+import { useLocalContacts } from "../../context/ContactsContexts"
+import { usePage } from "../../context/PageContext"
+import useFetchData from "../../hooks/useFetchData"
 
 const ContactAddModal = ({ modalToggle, setModalToggle }) => {
     const [name, setName] = useState("")
@@ -10,6 +13,10 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
     const [photoUrl, setPhotoUrl] = useState("")
+    const { localContacts, setLocalContacts } = useLocalContacts()
+    const { currentPage } = usePage()
+
+    const { fetchContacts } = useFetchData(currentPage)
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0]
@@ -23,11 +30,33 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
     const newContact = {
         firstname: name,
         lastname: surname,
-        role: role,
-        address: address,
-        phoneNumber: phone,
-        email: email,
+
+        isEmployee: false,
+        isCustomer: true,
+        isPartner: false,
+        contactsList: [
+            {
+                id: "00000000-0000-0000-0000-000000000000",
+                typeId: "0d91c432-a9c2-40cc-92ef-14caa65685da",
+                type: "Email",
+                contact: email,
+            },
+            {
+                id: "00000000-0000-0000-0000-000000000000",
+                typeId: "ce457921-7597-4045-b595-60562364594c",
+                type: "Mobile phone",
+                contact: phone,
+            },
+            {
+                id: "00000000-0000-0000-0000-000000000000",
+                typeId: "ce457921-7597-4045-b595-60562364594c",
+                type: "Address",
+                contact: address,
+            },
+        ],
+        groupsList: [],
     }
+
     const handleAddContact = async (e) => {
         e.preventDefault()
         const fetchPromise = new Promise(async (resolve, reject) => {
@@ -45,6 +74,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                 } else {
                     const data = await response.json()
                     resolve(data)
+                    setLocalContacts([...localContacts])
                 }
             } catch (error) {
                 console.error("Error fetching data:", error)
@@ -59,6 +89,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
             success: "Add new contact!",
             error: "Something went wrong",
         })
+        fetchContacts()
     }
 
     return (

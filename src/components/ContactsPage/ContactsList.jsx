@@ -1,13 +1,14 @@
 import React, { useEffect } from "react"
-import useContacts from "../../hooks/fetchData"
-import DropdownContact from "./../UI/DropdownContact"
+import { useLocalContacts } from "../../context/ContactsContexts"
 import { usePage } from "../../context/PageContext"
+import useContacts from "../../hooks/useFetchData"
+import DropdownContact from "./../UI/DropdownContact"
 
 const ContactList = () => {
     const { currentPage } = usePage()
+    const { localContacts, setLocalContacts } = useLocalContacts()
 
-    const { localContacts, loading, error, fetchContacts } =
-        useContacts(currentPage)
+    const { fetchContacts } = useContacts(currentPage)
 
     useEffect(() => {
         fetchContacts()
@@ -15,9 +16,6 @@ const ContactList = () => {
 
     return (
         <tbody>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error.message}</p>}
-
             {localContacts.map((contact, i) => (
                 <tr
                     key={`item-${i}`} // Key is correctly placed here

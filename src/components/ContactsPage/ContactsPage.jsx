@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { DotLoader } from "react-spinners"
 import { usePage } from "../../context/PageContext"
-import useContacts from "../../hooks/fetchData"
+import useContacts from "../../hooks/useFetchData"
 import ContactAddModal from "../ContactAddModal/ContactAddModal"
 import DropdownFilters from "../UI/DropdownFilters"
 import ContactsList from "./ContactsList"
@@ -13,7 +13,7 @@ const ContactPage = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const { currentPage } = usePage()
 
-    const { setLocalContacts, setLoading, loading } = useContacts(currentPage)
+    const { setLoading, loading } = useContacts(currentPage)
     //WebSocket coinnection
     // useEffect(() => {
     //     const ws = new WebSocket(

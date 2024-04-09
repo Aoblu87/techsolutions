@@ -1,0 +1,26 @@
+Oggetto per aggiungere o modificare contatto
+{
+    
+            "id": "68818bf2-561a-4203-8da9-097a330efe90",
+  "firstname": "Test",
+  "lastname": "MICHELE",
+  "picture": null,
+  "isEmployee": false,
+  "isCustomer": true,
+  "isPartner": false,
+  "contactsList": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "typeId": "0d91c432-a9c2-40cc-92ef-14caa65685da",
+      "type": "Email",
+      "contact": "email@test.com"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "typeId": "ce457921-7597-4045-b595-60562364594c",
+      "type": "Mobile phone",
+      "contact": "+39 333 1234567 000 111"
+    }
+  ],
+  "groupsList": []
+}

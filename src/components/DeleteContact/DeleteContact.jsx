@@ -1,29 +1,29 @@
-import React, { forwardRef, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { usePage } from "../../context/PageContext";
-import useContacts from "../../hooks/fetchData";
+import React, { forwardRef, useState } from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useLocalContacts } from "../../context/ContactsContexts"
+import { usePage } from "../../context/PageContext"
+import useFetchData from "../../hooks/useFetchData"
 
 const DeleteContact = forwardRef((props, ref) => {
     const {
+        setModalToggle,
+        modalToggle,
         selectedContactId,
         active,
         activeClass,
         noActiveClass,
         customClass,
-    } = props;
+    } = props
 
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const { currentPage } = usePage();
-    const { fetchContacts } = useContacts(currentPage);
-
-    const handleFetchData = async () => {
-        fetchContacts();
-    };
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+    const { currentPage } = usePage()
+    const { fetchContacts } = useFetchData(currentPage)
+    const { localContacts, setLocalContacts } = useLocalContacts()
 
     const handleDelete = async () => {
-        let formData = new FormData();
-        formData.append("id", selectedContactId);
+        let formData = new FormData()
+        formData.append("id", selectedContactId)
 
         const fetchPromise = new Promise(async (resolve, reject) => {
             try {
@@ -33,31 +33,33 @@ const DeleteContact = forwardRef((props, ref) => {
                         method: "DELETE",
                         body: formData,
                     }
-                );
+                )
 
                 if (response.ok) {
-                    const data = await response.json();
-                    resolve(data);
-                    await handleFetchData();
+                    const data = await response.json()
+                    resolve(data)
+                    setLocalContacts([...localContacts])
                 } else {
-                    reject(new Error(`HTTP error! Status: ${response.status}`));
+                    reject(new Error(`HTTP error! Status: ${response.status}`))
                 }
             } catch (error) {
-                reject(error);
+                reject(error)
             }
-        });
+        })
 
+        fetchContacts()
+        // setLocalContacts()
         toast.promise(fetchPromise, {
             pending: "Loading...",
             success: "Deleted!",
             error: "Something went wrong",
-        });
-    };
+        })
+    }
 
     const handleDeleteConfirmation = async () => {
-        setShowConfirmationModal(false);
-        await handleDelete();
-    };
+        setShowConfirmationModal(false)
+        await handleDelete()
+    }
 
     return (
         <>
@@ -90,12 +92,12 @@ const DeleteContact = forwardRef((props, ref) => {
                         </div>
                     </div>
                     <style jsx>{`
-            @media (max-width: 768px) {
-              .fixed.inset-0 > div:nth-child(2) {
-                width: 90%; /* Adjust width as needed for smaller screens */
-              }
-            }
-          `}</style>
+                        @media (max-width: 768px) {
+                            .fixed.inset-0 > div:nth-child(2) {
+                                width: 90%; /* Adjust width as needed for smaller screens */
+                            }
+                        }
+                    `}</style>
                 </div>
             )}
             <ToastContainer
@@ -111,7 +113,7 @@ const DeleteContact = forwardRef((props, ref) => {
                 theme="light"
             />
         </>
-    );
-});
+    )
+})
 
-export default DeleteContact;
+export default DeleteContact

@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from "react"
+import { useCallback, useState } from "react"
+import { useLocalContacts } from "../context/ContactsContexts"
 
-const useContacts = (currentPage) => {
-    const [localContacts, setLocalContacts] = useState([])
+const useFetchData = (currentPage) => {
+    const { localContacts, setLocalContacts } = useLocalContacts()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [totContacts, setTotContacts] = useState()
@@ -37,11 +38,7 @@ const useContacts = (currentPage) => {
         } finally {
             setLoading(false)
         }
-    }, [currentPage])
-
-    useEffect(() => {
-        fetchContacts()
-    }, [fetchContacts])
+    }, [currentPage, setLocalContacts])
 
     return {
         localContacts,
@@ -54,4 +51,4 @@ const useContacts = (currentPage) => {
     }
 }
 
-export default useContacts
+export default useFetchData
