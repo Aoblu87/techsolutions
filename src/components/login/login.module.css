@@ -1,0 +1,56 @@
+/* login.module.css */
+
+.bodyLogin {
+    background-color: #1a202c;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    background-color: #213159;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e7e7e7;
+    color: #213159;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.input::placeholder {
+    color: #a0aec0;
+}
+
+.error {
+    color: #f56565;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    background-color: #3d6098;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #4466b1;
+}
+
+
