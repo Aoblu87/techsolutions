@@ -15,45 +15,45 @@ const ContactPage = () => {
 
     const { setLocalContacts, setLoading, loading } = useContacts(currentPage)
     //WebSocket coinnection
-    useEffect(() => {
-        const ws = new WebSocket(
-            // "wss://tjf-challenge.azurewebsites.net/web/ws/send"
-            "ws://tjf-challenge.azurewebsites.net:1402"
-        )
+    // useEffect(() => {
+    //     const ws = new WebSocket(
+    //         // "wss://tjf-challenge.azurewebsites.net/web/ws/send"
+    //         "ws://tjf-challenge.azurewebsites.net:1402"
+    //     )
 
-        ws.onopen = () => {
-            console.log("WebSocket connected!")
-            // Qui puoi inviare un messaggio al server se necessario
-            ws.send(
-                JSON.stringify({
-                    message: "string",
-                    personId: "string",
-                })
-            )
-        }
+    //     ws.onopen = () => {
+    //         console.log("WebSocket connected!")
+    //         // Qui puoi inviare un messaggio al server se necessario
+    //         ws.send(
+    //             JSON.stringify({
+    //                 message: "string",
+    //                 personId: "string",
+    //             })
+    //         )
+    //     }
 
-        ws.onmessage = (event) => {
-            // Gestire i messaggi ricevuti dal server
-            const message = JSON.parse(event.data)
-            console.log("Message from server ", message)
-            if (message.type === "update") {
-                // Aggiorna i tuoi contatti qui
-                setLocalContacts(message.payload)
-            }
-        }
+    //     ws.onmessage = (event) => {
+    //         // Gestire i messaggi ricevuti dal server
+    //         const message = JSON.parse(event.data)
+    //         console.log("Message from server ", message)
+    //         if (message.type === "update") {
+    //             // Aggiorna i tuoi contatti qui
+    //             setLocalContacts(message.payload)
+    //         }
+    //     }
 
-        ws.onerror = (error) => {
-            console.error("WebSocket error:", error)
-        }
+    //     ws.onerror = (error) => {
+    //         console.error("WebSocket error:", error)
+    //     }
 
-        ws.onclose = () => {
-            console.log("WebSocket disconnected")
-        }
+    //     ws.onclose = () => {
+    //         console.log("WebSocket disconnected")
+    //     }
 
-        return () => {
-            ws.close()
-        }
-    }, [setLocalContacts])
+    //     return () => {
+    //         ws.close()
+    //     }
+    // }, [setLocalContacts])
     //Useeffect to simulate loading fetching data
     useEffect(() => {
         setLoading(true)
