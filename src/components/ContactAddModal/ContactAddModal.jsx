@@ -40,17 +40,18 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                         body: JSON.stringify(newContact),
                     }
                 )
-                if (!response) {
+                if (!response || response.statusCode !== 200) {
                     reject(new Error(`HTTP error! Status: ${response.status}`))
                 } else {
                     const data = await response.json()
                     resolve(data)
-                    // Close the modal
-
-                    setModalToggle(false)
                 }
             } catch (error) {
                 console.error("Error fetching data:", error)
+            } finally {
+                setTimeout(() => {
+                    setModalToggle(false)
+                }, 5000)
             }
         })
         toast.promise(fetchPromise, {

@@ -54,6 +54,7 @@ const ContactPage = () => {
     //         ws.close()
     //     }
     // }, [setLocalContacts])
+
     //Useeffect to simulate loading fetching data
     useEffect(() => {
         setLoading(true)
