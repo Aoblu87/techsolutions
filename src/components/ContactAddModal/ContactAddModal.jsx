@@ -222,7 +222,9 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             type="text"
                                             placeholder="Phone"
                                             value={phone}
-                                            onChange={handlePhoneChange}
+                                            onChange={(e) =>
+                                                setPhone(e.target.value)
+                                            }
                                             required
                                         />
                                         <input

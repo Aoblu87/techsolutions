@@ -1,12 +1,10 @@
 import { useState } from "react"
 import { useLocalContacts } from "../../context/ContactsContexts"
-import { usePage } from "../../context/PageContext"
 import useFetchData from "../../hooks/useFetchData"
 
 const Searchbar = () => {
     const [query, setQuery] = useState("")
-    const { currentPage } = usePage()
-    const { localContacts, setLocalContacts } = useLocalContacts()
+    const { setLocalContacts } = useLocalContacts()
     const { fetchContacts } = useFetchData()
 
     const handleSearch = async (e) => {
@@ -39,10 +37,11 @@ const Searchbar = () => {
         }
     }
     const handleOnchange = async (e) => {
-        if (e.target.value === "") {
+        const newValue = e.target.value
+        setQuery(newValue)
+
+        if (newValue.trim() === "") {
             fetchContacts()
-        } else {
-            setQuery(e.target.value)
         }
     }
 

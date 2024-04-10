@@ -1,7 +1,6 @@
 import React, { forwardRef, useState } from "react"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { useLocalContacts } from "../../context/ContactsContexts"
 import { usePage } from "../../context/PageContext"
 import useFetchData from "../../hooks/useFetchData"
 
@@ -17,7 +16,7 @@ const DeleteContact = forwardRef((props, ref) => {
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [isDeleted, setIsDeleted] = useState(false)
     const { currentPage } = usePage()
-    const { fetchContacts } = useContacts(currentPage)
+    const { fetchContacts } = useFetchData(currentPage)
 
     const handleDelete = async () => {
         let formData = new FormData()
