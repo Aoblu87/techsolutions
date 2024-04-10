@@ -7,35 +7,100 @@ const Searchbar = () => {
     const { setLocalContacts } = useLocalContacts()
     const { fetchContacts } = useFetchData()
 
+    // const handleSearch = async (e) => {
+    //     e.preventDefault()
+
+    //     const searchPayload = {
+    //         lastname: query,
+    //     }
+
+    //     try {
+    //         const response = await fetch(
+    //             `https://tjf-challenge.azurewebsites.net/web/people/list`,
+    //             {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify(searchPayload),
+    //             }
+    //         )
+
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! Status: ${response.status}`)
+    //         }
+
+    //         const data = await response.json()
+    //         setLocalContacts(data.data)
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error)
+    //     }
+    // }
+
     const handleSearch = async (e) => {
         e.preventDefault()
 
-        const searchPayload = {
-            lastname: query,
-        }
+        // Prepara i payload per le due richieste
+        const searchPayloads = [
+            { firstname: query },
+            { lastname: query },
+            // {
+            //     contactsList: [
+            //         {
+            //             id: "00000000-0000-0000-0000-000000000000",
+            //             typeId: "0d91c432-a9c2-40cc-92ef-14caa65685da",
+
+            //             type: "Mobile phone",
+            //             contact: query,
+            //         },
+            //     ],
+            // },
+        ]
 
         try {
-            const response = await fetch(
-                `https://tjf-challenge.azurewebsites.net/web/people/list`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(searchPayload),
-                }
+            const responses = await Promise.all(
+                searchPayloads.map((payload) =>
+                    fetch(
+                        `https://tjf-challenge.azurewebsites.net/web/people/list`,
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload),
+                        }
+                    )
+                )
             )
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`)
-            }
+            responses.forEach((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`)
+                }
+            })
 
-            const data = await response.json()
-            setLocalContacts(data.data)
+            // Estrae i dati JSON da tutte le risposte
+            const data = await Promise.all(
+                responses.map((response) => response.json())
+            )
+
+            // Combina i dati ricevuti dalle due richieste, rimuovendo i duplicati
+            const combinedData = [...data[0].data, ...data[1].data].reduce(
+                (acc, current) => {
+                    const x = acc.find((item) => item.id === current.id)
+                    if (!x) {
+                        return acc.concat([current])
+                    } else {
+                        return acc
+                    }
+                },
+                []
+            )
+
+            setLocalContacts(combinedData)
         } catch (error) {
             console.error("Error fetching data:", error)
         }
     }
+
     const handleOnchange = async (e) => {
         const newValue = e.target.value
         setQuery(newValue)

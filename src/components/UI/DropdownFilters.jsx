@@ -1,19 +1,71 @@
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import { Fragment, useState } from "react"
+import { useLocalContacts } from "../../context/ContactsContexts"
 
 const filters = [
     { name: "Employees" },
     { name: "Clients" },
     { name: "Partner" },
 ]
-export default function DropdownFilters(props) {
-    const { setFilter } = props
+export default function DropdownFilters() {
     const [selected, setSelected] = useState(filters[0])
+    const { setLocalContacts } = useLocalContacts()
 
+    const getSearchPayload = (selected) => {
+        switch (selected.name) {
+            case "Employees":
+                return { isEmployee: true, isCustomer: false, isPartner: false }
+            case "Clients":
+                return { isEmployee: false, isCustomer: true, isPartner: false }
+            case "Partner":
+                return { isEmployee: false, isCustomer: false, isPartner: true }
+            default:
+                return {
+                    isEmployee: false,
+                    isCustomer: false,
+                    isPartner: false,
+                }
+        }
+    }
+
+    const handleSearch = async () => {
+        const searchPayload = getSearchPayload(selected)
+
+        try {
+            const response = await fetch(
+                `https://tjf-challenge.azurewebsites.net/web/people/list`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(searchPayload),
+                }
+            )
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`)
+            }
+
+            const data = await response.json()
+            setLocalContacts(data.data)
+        } catch (error) {
+            console.error("Error fetching data:", error)
+        }
+    }
+
+    const handleSelectionChange = (newSelected) => {
+        setSelected(newSelected)
+        if (selected) {
+            handleSearch()
+        } else {
+            return
+        }
+    }
     return (
         <div className="relative inline-block text-left">
-            <Listbox value={selected} onChange={setSelected}>
+            <Listbox value={selected} onChange={handleSelectionChange}>
                 <div className="relative mt-1">
                     <Listbox.Button className="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-neutral focus:outline-none bg-subdue rounded-lg border border-vivid hover:bg-vivid hover:text-white focus:z-10 focus:ring-4 focus:ring-slate-800 dark:focus:ring-subdue dark:bg-subdue dark:text-neutral dark:border-subdue dark:hover:text-white">
                         <svg
@@ -62,7 +114,6 @@ export default function DropdownFilters(props) {
                                         }`
                                     }
                                     value={filter}
-                                    onChange={(e) => setFilter(e.target.value)}
                                 >
                                     {({ selected }) => (
                                         <>

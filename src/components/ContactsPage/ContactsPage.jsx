@@ -9,7 +9,6 @@ import Searchbar from "./Searchbar"
 import TableNavigation from "./TableNavigation"
 
 const ContactPage = () => {
-    const [filter, setFilter] = useState("")
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const { currentPage } = usePage()
 
@@ -72,11 +71,8 @@ const ContactPage = () => {
                 >
                     <div className="container bg-neutral dark:bg-vivid flex flex-wrap justify-between p-4">
                         <div className="flex flex-col sm:flex-row w-full sm:w-auto">
-                            <Searchbar filter={filter} />
-                            <DropdownFilters
-                                filter={filter}
-                                setFilter={setFilter}
-                            />
+                            <Searchbar />
+                            <DropdownFilters />
                         </div>
                         <div className="flex justify-center sm:justify-end mt-4 sm:mt-0">
                             <button
