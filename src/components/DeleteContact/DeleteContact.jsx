@@ -93,7 +93,7 @@ const DeleteContact = forwardRef((props, ref) => {
                     `}</style>
                 </div>
             )}
-            {isDeleted && (
+            {/* {isDeleted && (
                 <div className="fixed inset-0 flex justify-center items-center">
                     <div className="bg-neutral p-6 rounded-lg shadow-md w-72">
                         <div className="flex justify-between items-center">
@@ -118,7 +118,7 @@ const DeleteContact = forwardRef((props, ref) => {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

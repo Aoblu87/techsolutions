@@ -76,7 +76,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                         body: JSON.stringify(newContact),
                     }
                 )
-                if (!response || response.statusCode !== 200) {
+                if (!response.ok) {
                     reject(new Error(`HTTP error! Status: ${response.status}`))
                 } else {
                     const data = await response.json()
