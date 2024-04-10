@@ -67,7 +67,7 @@ const DeleteContact = forwardRef((props, ref) => {
             {showConfirmationModal && !isDeleted && (
                 <div className="fixed inset-0 z-50 overflow-y-auto flex justify-center items-center">
                     <div className="absolute inset-0 bg-subdue opacity-75"></div>
-                    <div className="bg-neutral w-1/3 p-6 rounded-lg z-50">
+                    <div className="bg-neutral w-1/3 p-6 rounded-lg z-50 text-black">
                         <p>Are you sure you want to delete this contact?</p>
                         <div className="mt-4 flex justify-end">
                             <button
