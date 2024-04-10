@@ -7,7 +7,6 @@ import "./ContactsModal.css" // Import the CSS file containing styles
 const CardComponent = (props) => {
     const { modalToggle, setModalToggle, selectedContactId } = props
     const [contactDetails, setContactDetails] = useState("")
-
     const [showEditCard, setShowEditCard] = useState(false)
     const [editMode, setEditMode] = useState(false)
     const [name, setName] = useState()
@@ -211,6 +210,9 @@ const CardComponent = (props) => {
 
                                             {showEditCard && (
                                                 <EditCard
+                                                    contactDetails={
+                                                        contactDetails
+                                                    }
                                                     onEdit={handleEdit}
                                                     onCancel={
                                                         editMode

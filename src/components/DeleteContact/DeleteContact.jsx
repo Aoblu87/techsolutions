@@ -50,9 +50,9 @@ const DeleteContact = forwardRef((props, ref) => {
         await handleDelete()
     }
 
-    const handleCardClose = () => {
-        setIsDeleted(false)
-    }
+    // const handleCardClose = () => {
+    //     setIsDeleted(false)
+    // }
 
     return (
         <>

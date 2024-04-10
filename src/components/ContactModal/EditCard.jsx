@@ -3,7 +3,7 @@ import "./ContactsModal.css" // Import the CSS file containing styles
 import { ToastContainer, toast } from "react-toastify"
 
 const EditCard = (props) => {
-    const { role, setRole, setEditMode } = props
+    const { role, setRole, setEditMode, contactDetails } = props
     const [name, setName] = useState()
     const [address, setAddress] = useState()
     const [phone, setPhone] = useState()
@@ -80,7 +80,11 @@ const EditCard = (props) => {
                 </div>
                 <input
                     type="text"
-                    placeholder="Name"
+                    placeholder={
+                        contactDetails?.firstname
+                            ? contactDetails.firstname
+                            : "First Name"
+                    }
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
