@@ -59,6 +59,13 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
 
     const handleAddContact = async (e) => {
         e.preventDefault()
+
+        // Basic email validation
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            toast.error("Invalid email format")
+            return
+        }
+
         const fetchPromise = new Promise(async (resolve, reject) => {
             try {
                 const response = await fetch(
@@ -84,6 +91,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                 }, 5000)
             }
         })
+
         toast.promise(fetchPromise, {
             pending: "Loading...",
             success: "Add new contact!",
@@ -181,6 +189,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             onChange={(e) =>
                                                 setName(e.target.value)
                                             }
+                                            required
                                         />
                                         <input
                                             type="text"
@@ -189,6 +198,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             onChange={(e) =>
                                                 setSurname(e.target.value)
                                             }
+                                            required
                                         />
                                         <input
                                             type="text"
@@ -197,6 +207,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             onChange={(e) =>
                                                 setRole(e.target.value)
                                             }
+                                            required
                                         />
                                         <input
                                             type="text"
@@ -205,14 +216,14 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             onChange={(e) =>
                                                 setAddress(e.target.value)
                                             }
+                                            required
                                         />
                                         <input
                                             type="text"
                                             placeholder="Phone"
                                             value={phone}
-                                            onChange={(e) =>
-                                                setPhone(e.target.value)
-                                            }
+                                            onChange={handlePhoneChange}
+                                            required
                                         />
                                         <input
                                             type="email"
@@ -221,6 +232,7 @@ const ContactAddModal = ({ modalToggle, setModalToggle }) => {
                                             onChange={(e) =>
                                                 setEmail(e.target.value)
                                             }
+                                            required
                                         />
                                         <button type="submit">Save</button>
                                     </form>
